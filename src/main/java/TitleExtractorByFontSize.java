@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,15 +9,21 @@ import java.util.TreeMap;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.pdfbox.text.TextPosition;
 
-public class TitleExtractorByFontSize {
-    private final List<TextPosition> textPositionsList = new ArrayList<>();
+public class TitleExtractorByFontSize extends PDFTextStripper {
+    private final List<TextPosition> textPositionsList;
+
+    public TitleExtractorByFontSize() {
+        super();
+        this.textPositionsList = new ArrayList<>();
+    }
 
     public Optional<String> getTitle(PDDocument document) throws IOException {
-//        this.setStartPage(1);
-//        this.setEndPage(2);
-//        this.writeText(document, new StringWriter());
+        this.setStartPage(1);
+        this.setEndPage(2);
+        this.writeText(document, new StringWriter());
         return findLargestFontText(textPositionsList);
     }
 
